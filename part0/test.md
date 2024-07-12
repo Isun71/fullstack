@@ -1,0 +1,1 @@
+Hi, this is testing document for checking git connection!
