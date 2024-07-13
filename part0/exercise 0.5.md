@@ -4,19 +4,11 @@ sequenceDiagram
     participant Browser
     participant Server
 
-    User->>Browser: Open Notes Page
-    Browser->>Server: GET /notes
-    Server-->>Browser: HTML (notes page)
-    Browser->>Server: GET /notes.js
-    Server-->>Browser: JavaScript (notes.js)
+    User->>Browser: Open SPA Notes Page (https://studies.cs.helsinki.fi/exampleapp/spa)
+    Browser->>Server: GET /spa
+    Server-->>Browser: HTML (spa page)
+    Browser->>Server: GET /spa.js
+    Server-->>Browser: JavaScript (spa.js)
     Browser->>Server: GET /notes
     Server-->>Browser: JSON (notes data)
-
-    User->>Browser: Submit new note
-    Browser->>Browser: Prevent default form submit
-    Browser->>Browser: Create new note object
-    Browser->>Browser: Add note to notes list
-    Browser->>Browser: Redraw notes
-    Browser->>Server: POST /new_note_spa (note as JSON)
-    Server-->>Browser: 201 Created
-    Browser-->>User: Display updated notes list
+    Browser->>Browser: Render notes on page
