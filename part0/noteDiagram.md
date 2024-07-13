@@ -1,5 +1,4 @@
 ```mermaid
-noteDiagram
     participant browser
     participant server
 
