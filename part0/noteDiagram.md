@@ -1,3 +1,4 @@
+```mermaid
 noteDiagram
     participant browser
     participant server
@@ -32,3 +33,4 @@ noteDiagram
     deactivate server
 
     Note right of browser: The browser executes the callback function that renders the notes. This time, notes array includes the one we've posted earlier.
+```
