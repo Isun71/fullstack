@@ -1,24 +1,34 @@
+import React from 'react';
+
 const Header = ({ course }) => {
   return <h1>{course}</h1>;
 };
 
+const Part = ({ part, exercises }) => {
+  return (
+    <p>
+      {part} {exercises}
+    </p>
+  );
+};
+
 const Content = ({ contents }) => {
   return (
-    contents.map( (content) => 
-      <p>
-        {content.part} {content.exercises}
-      </p>
-    )
+    <div>
+      {contents.map((content, index) => (
+        <Part key={index} part={content.part} exercises={content.exercises} />
+      ))}
+    </div>
   );
 };
 
 const Total = ({ contents }) => {
-  const total = contents.reduce((sum, content) => sum + content.exercises, 0)
+  const total = contents.reduce((sum, content) => sum + content.exercises, 0);
   return (
     <p>
       Number of exercises {total}
     </p>
-  )
+  );
 }
 
 const App = () => {
@@ -47,4 +57,4 @@ const App = () => {
   );
 };
 
-export default App
+export default App;
