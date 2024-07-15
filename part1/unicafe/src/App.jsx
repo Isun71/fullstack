@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const Total = ({ good, neutral, bad }) => good + neutral + bad;
+const getTotal = ({ good, neutral, bad }) => good + neutral + bad;
 
-const Average = ({ good, neutral, bad }) => {
+const getAverage = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   return total > 0 ? (good - bad) / total : 0;
 };
 
-const Positive = ({ good, neutral, bad }) => {
+const getPositive = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   return total > 0 ? (good / total) * 100 : 0;
 };
@@ -20,9 +20,9 @@ const StatisticLine = ({ text, value }) => (
 );
 
 const Statistics = ({ good, neutral, bad }) => {
-  const total = Total({ good, neutral, bad });
-  const average = Average({ good, neutral, bad });
-  const positive = Positive({ good, neutral, bad });
+  const total = getTotal({ good, neutral, bad });
+  const average = getAverage({ good, neutral, bad });
+  const positive = getPositive({ good, neutral, bad });
 
   return (
     <div>
