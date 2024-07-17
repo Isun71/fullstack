@@ -9,6 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchFilter, setSearchFilter] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     console.log('effect');
@@ -47,6 +48,11 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson));
             setNewName('');
             setNewNumber('');
+            showNotification(`Updated ${newName}'s number`);
+          })
+          .catch(error => {
+            showNotification(`Error: Information of '${person.name}' has already been removed from server`, 'error');
+            setPersons(persons.filter(p => p.id !== person.id));
           });
         console.log(`number of ${person.name} updated from ${person.number}`);
       }
@@ -62,6 +68,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
           setNewNumber('');
+          showNotification(`Added ${newName}`);
+        })
+        .catch(error => {
+          showNotification(`Error: Could not add ${newName}`, 'error');
         });
     }
   };
@@ -74,10 +84,14 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter(p => p.id !== id));
+          showNotification(`Deleted ${person.name}`);
         })
         .catch(error => {
+          showNotification(`Error: Information of '${person.name}' has already been removed from server`);
+          setPersons(persons.filter(p => p.id !== id));
           console.log('attempt fail');
         });
+
     }
   };
 
@@ -85,11 +99,32 @@ const App = () => {
     person.name.toLowerCase().includes(searchFilter.toLowerCase())
   );
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className='notification'>
+        {message}
+      </div>
+    )
+  };
+
+  const showNotification = (message) => {
+    setNotificationMessage(message);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 5000);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
       
       <Filter searchFilter={searchFilter} handleFilterChange={handleFilterChange} />
+
+      <Notification message={notificationMessage} />
 
       <h3>Add a new</h3>
       
