@@ -3,6 +3,7 @@ import phoneService from './services/phones';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Footer from './components/Footer';
 
 const App = () => {
   const [persons, setPersons] = useState([]); 
@@ -139,6 +140,8 @@ const App = () => {
       <h3>Numbers</h3>
       
       <Persons filteredPersons={filteredPersons} handleDelete={handleDelete} />
+
+      <Footer />
     </div>
   );
 }
