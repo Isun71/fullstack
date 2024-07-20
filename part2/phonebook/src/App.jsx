@@ -73,7 +73,7 @@ const App = () => {
           showNotification(`Added ${newName}`);
         })
         .catch(error => {
-          showError(`Error: Could not add ${newName}`, 'error');
+          showError(`Error: Could not add ${newName}. ${error}`);
         });
     }
   };
