@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [searchFilter, setSearchFilter] = useState('');
   const [notificationMessage, setNotificationMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     console.log('effect');
@@ -52,7 +53,7 @@ const App = () => {
             showNotification(`Updated ${newName}'s number`);
           })
           .catch(error => {
-            showNotification(`Error: Information of '${person.name}' has already been removed from server`, 'error');
+            showError(`Error: Information of '${person.name}' has already been removed from server`, 'error');
             setPersons(persons.filter(p => p.id !== person.id));
           });
         console.log(`number of ${person.name} updated from ${person.number}`);
@@ -72,7 +73,7 @@ const App = () => {
           showNotification(`Added ${newName}`);
         })
         .catch(error => {
-          showNotification(`Error: Could not add ${newName}`, 'error');
+          showError(`Error: Could not add ${newName}`, 'error');
         });
     }
   };
@@ -88,7 +89,7 @@ const App = () => {
           showNotification(`Deleted ${person.name}`);
         })
         .catch(error => {
-          showNotification(`Error: Information of '${person.name}' has already been removed from server`);
+          showError(`Error: Information of '${person.name}' has already been removed from server`);
           setPersons(persons.filter(p => p.id !== id));
           console.log('attempt fail');
         });
@@ -119,6 +120,25 @@ const App = () => {
     }, 5000);
   };
 
+  const Error = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className='error'>
+        {message}
+      </div>
+    )
+  }
+
+  const showError = (message) => {
+    setErrorMessage(message);
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -126,6 +146,7 @@ const App = () => {
       <Filter searchFilter={searchFilter} handleFilterChange={handleFilterChange} />
 
       <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
 
       <h3>Add a new</h3>
       
