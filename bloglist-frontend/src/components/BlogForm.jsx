@@ -19,7 +19,7 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <div>
+    <div className='formDiv'>
       <h2>Create a new blog</h2>
       <form onSubmit={addBlog}>
         <div>
@@ -27,6 +27,8 @@ const BlogForm = ({ createBlog }) => {
           <input
             value={newTitle}
             onChange={({ target }) => setNewTitle(target.value)}
+            // placeholder='write title of blog'
+            id='blog-title-input'
           />
         </div>
         <div>
