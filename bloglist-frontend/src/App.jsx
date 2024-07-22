@@ -80,6 +80,18 @@ const App = () => {
     }, 5000)
   }
 
+  const updateLikes = (updatedBlog) => {
+    setBlogs(blogs.map(blog => 
+      blog.id !== updatedBlog.id 
+      ? blog 
+      : { ...blog, likes: updatedBlog.likes}
+    ))
+  }
+
+  const removeBlog = (id) => {
+    setBlogs(blogs.filter(blog => blog.id !== id));
+  };
+
   const loginForm = () => {
     const hideWhenVisible = { display: loginVisible ? 'none' : '' }
     const showWhenVisible = { display: loginVisible ? '' : 'none' }
@@ -104,10 +116,12 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <Togglable buttonLable="create new blog" ref={blogFormRef} >
+    <Togglable buttonLabel="create new blog" ref={blogFormRef} >
       <BlogForm createBlog={addBlog} />
     </Togglable>
   )
+
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
 
   return (
     <div>
@@ -120,8 +134,8 @@ const App = () => {
       </div>
       }
       <ul>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+        {sortedBlogs.map(blog =>
+          <Blog key={blog.id} blog={blog} updateLikes={updateLikes} removeBlog={removeBlog} user={user}/>
         )}
       </ul>
       <Footer />
