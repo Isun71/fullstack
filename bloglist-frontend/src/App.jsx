@@ -7,7 +7,7 @@ import Notification from './components/Notification'
 
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import BlogForm from './components/BlogForm' 
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
+
   const blogFormRef = useRef()
 
   const addBlog = (blogObject) => {
@@ -50,7 +50,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem(
         'loggedBlogAppUser', JSON.stringify(user)
-      ) 
+      )
 
       blogService.setToken(user.token)
       setUser(user)
@@ -81,16 +81,16 @@ const App = () => {
   }
 
   const updateLikes = (updatedBlog) => {
-    setBlogs(blogs.map(blog => 
-      blog.id !== updatedBlog.id 
-      ? blog 
-      : { ...blog, likes: updatedBlog.likes}
+    setBlogs(blogs.map(blog =>
+      blog.id !== updatedBlog.id
+        ? blog
+        : { ...blog, likes: updatedBlog.likes }
     ))
   }
 
   const removeBlog = (id) => {
-    setBlogs(blogs.filter(blog => blog.id !== id));
-  };
+    setBlogs(blogs.filter(blog => blog.id !== id))
+  }
 
   const loginForm = () => {
     const hideWhenVisible = { display: loginVisible ? 'none' : '' }
@@ -121,7 +121,7 @@ const App = () => {
     </Togglable>
   )
 
-  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   return (
     <div>
