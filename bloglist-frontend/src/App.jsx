@@ -148,7 +148,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       <Notification message={message} type={messageType} />
       {!user && loginForm()}
       {user && <div>
@@ -156,6 +156,7 @@ const App = () => {
         {blogForm()}
       </div>
       }
+      <h2>Saved blogs</h2>
       <ul>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
