@@ -3,51 +3,95 @@ import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 import { expect } from 'vitest'
 
-test('renders content', () => {
+test('renders title and author, but not URL or likes by default', () => {
   const blog = {
-    title: 'Component testing is done with react-testing-library',
-    author: 'anonymous tester',
-    url: 'testing.url'
+    title: 'test example',
+    author: 'tester',
+    url: 'example.com',
+    likes: 5,
+    user: {
+      username: 'test'
+    }
   }
 
-  render(<Blog blog={blog} />)
-
-  const element = screen.getByText('Component testing is done with react-testing-library')
-
-  screen.debug(element)
-
-  expect(element).toBeDefined()
-})
-
-test('clicking the button calls event handler once', async () => {
-  const blog = {
-    title: 'Component testing is done with react-testing-library',
-    author: 'anonymous tester',
-    url: 'testing.url'
+  const user = {
+    username: 'test'
   }
-  
-  const mockHandler = vi.fn()
 
-  render(
-    <Blog blog={blog} toggleImportance={mockHandler} /> // tbr
+  render(<Blog blog={blog} user={user} />)
+
+  const title = screen.getByText((content, element) =>
+    element.tagName.toLowerCase() === 'div' && content.includes('test example')
+  )
+  const author = screen.getByText((content, element) =>
+    element.tagName.toLowerCase() === 'div' && content.includes('tester')
   )
 
-  const user = userEvent.setup()
-  const button = screen.getByText('make not important') // tbr
-  await user.click(button)
+  expect(title).toBeInTheDocument()
+  expect(author).toBeInTheDocument()
 
-  expect(mockHandler.mock.calls).toHaveLength(1)
+  const url = screen.queryByText('example.com')
+  const likes = screen.queryByText('likes 5')
+
+  expect(url).toBeNull()
+  expect(likes).toBeNull()
 })
 
-test('does not render this', () => {
+test('renders title, author, URL, and likes when the view button is clicked', async () => {
   const blog = {
-    title: 'This is a reminder',
-    author: 'miss remind',
-    url: "remind.me"
+    title: 'test example',
+    author: 'tester',
+    url: 'example.com',
+    likes: 5,
+    user: {
+      username: 'test'
+    }
   }
 
-  render(<Blog blog={blog} />)
+  const user = {
+    username: 'test'
+  }
 
-  const element = screen.queryByText('do not want this thing to be rendered')
-  expect(element).toBeNull()
+  render(<Blog blog={blog} user={user} />)
+
+  const userAction = userEvent.setup()
+  const button = screen.getByText('view')
+  await userAction.click(button)
+
+  // Check that URL and likes are rendered after clicking the button
+  const url = screen.getByText('example.com')
+  const likes = screen.getByText('likes 5')
+
+  expect(url).toBeInTheDocument()
+  expect(likes).toBeInTheDocument()
+})
+
+test('when like button is clicked twice', async () => {
+  const blog = {
+    title: 'test example',
+    author: 'tester',
+    url: 'example.com',
+    likes: 5,
+    user: {
+      username: 'test'
+    }
+  }
+
+  const user = {
+    username: 'test'
+  }
+
+  const mockHandler = vi.fn()
+
+  render(<Blog blog={blog} user={user} handleLike={mockHandler} />)
+
+  const userAction = userEvent.setup()
+  const viewButton = screen.getByText('view')
+  await userAction.click(viewButton)
+
+  const likeButton = screen.getByText('like')
+  await userAction.click(likeButton)
+  await userAction.click(likeButton)
+
+  expect(mockHandler).toHaveBeenCalledTimes(2)
 })
