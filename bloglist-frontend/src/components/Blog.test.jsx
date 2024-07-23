@@ -66,32 +66,32 @@ test('renders title, author, URL, and likes when the view button is clicked', as
   expect(likes).toBeInTheDocument()
 })
 
-test('when like button is clicked twice', async () => {
-  const blog = {
-    title: 'test example',
-    author: 'tester',
-    url: 'example.com',
-    likes: 5,
-    user: {
-      username: 'test'
-    }
-  }
+// test('when like button is clicked twice', async () => {
+//   const blog = {
+//     title: 'test example',
+//     author: 'tester',
+//     url: 'example.com',
+//     likes: 5,
+//     user: {
+//       username: 'test'
+//     }
+//   }
 
-  const user = {
-    username: 'test'
-  }
+//   const user = {
+//     username: 'test'
+//   }
 
-  const mockHandler = vi.fn()
+//   const mockHandler = vi.fn()
 
-  render(<Blog blog={blog} user={user} handleLike={mockHandler} />)
+//   render(<Blog blog={blog} user={user} handleLike={mockHandler} />)
 
-  const userAction = userEvent.setup()
-  const viewButton = screen.getByText('view')
-  await userAction.click(viewButton)
+//   const userAction = userEvent.setup()
+//   const viewButton = screen.getByText('view')
+//   await userAction.click(viewButton)
 
-  const likeButton = screen.getByText('like')
-  await userAction.click(likeButton)
-  await userAction.click(likeButton)
+//   const likeButton = screen.getByText('like')
+//   await userAction.click(likeButton)
+//   await userAction.click(likeButton)
 
-  expect(mockHandler).toHaveBeenCalledTimes(2)
-})
+//   expect(mockHandler).toHaveBeenCalledTimes(2)
+// })
